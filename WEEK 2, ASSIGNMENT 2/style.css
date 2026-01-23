@@ -1,0 +1,34 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #020617, #0f172a);
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    margin-bottom: 15px;
+}
+
+h2 {
+    margin-top: 30px;
+}
+
+#clock {
+    font-size: 60px;
+    background: black;
+    padding: 20px 40px;
+    border-radius: 10px;
+    letter-spacing: 4px;
+}
+
+#countdown {
+    font-size: 28px;
+    color: #38bdf8;
+    margin-top: 10px;
+}
