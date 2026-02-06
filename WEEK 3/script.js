@@ -10,7 +10,7 @@ function getWeather() {
   const apiKey = "YOUR_API_KEY_HERE";
 
   // STEP 1: Geocoding API (location → lat & lon)
-  const geoUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${apiKey}`;
+  const geoUrl = `https://openweathermap.org/api`;
 
   fetch(geoUrl)
     .then(response => response.json())
@@ -26,7 +26,7 @@ function getWeather() {
       const country = geoData[0].country;
 
       // STEP 2: Weather API using lat & lon
-      const weatherUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`;
+      const weatherUrl = `https://openweathermap.org/api`;
 
       return fetch(weatherUrl).then(response => response.json())
         .then(weatherData => {
