@@ -1,8 +1,9 @@
+
 function getWeather() {
   const city = document.getElementById("city").value;
   const output = document.getElementById("output");
 
-  const API_KEY = "PASTE_YOUR_API_KEY_HERE";
+  const API_KEY = "https://openweathermap.org/api";
 
   const url =
     "https://api.openweathermap.org/data/2.5/weather?q=" +
@@ -32,3 +33,4 @@ function getWeather() {
 
   xhr.send();
 }
+   
