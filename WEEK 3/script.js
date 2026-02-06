@@ -1,48 +1,34 @@
 function getWeather() {
-  const location = document.getElementById("location").value;
-  const result = document.getElementById("result");
+  const city = document.getElementById("city").value;
+  const output = document.getElementById("output");
 
-  if (location === "") {
-    result.innerHTML = "Please enter a location";
-    return;
-  }
+  const API_KEY = "PASTE_YOUR_API_KEY_HERE";
 
-  const apiKey = "YOUR_API_KEY_HERE";
+  const url =
+    "https://api.openweathermap.org/data/2.5/weather?q=" +
+    city + "&units=metric&appid=" + API_KEY;
 
-  // STEP 1: Geocoding API (location → lat & lon)
-  const geoUrl = `https://openweathermap.org/api`;
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
 
-  fetch(geoUrl)
-    .then(response => response.json())
-    .then(geoData => {
-      if (geoData.length === 0) {
-        result.innerHTML = "Location not found";
-        return;
-      }
+  xhr.onload = function () {
+    if (xhr.status !== 200) {
+      output.innerText = "Error: " + xhr.status;
+      return;
+    }
 
-      const lat = geoData[0].lat;
-      const lon = geoData[0].lon;
-      const placeName = geoData[0].name;
-      const country = geoData[0].country;
+    const data = JSON.parse(xhr.responseText);
 
-      // STEP 2: Weather API using lat & lon
-      const weatherUrl = `https://openweathermap.org/api`;
+    output.innerText =
+      "City: " + data.name + "\n" +
+      "Temperature: " + data.main.temp + " °C\n" +
+      "Humidity: " + data.main.humidity + "%\n" +
+      "Condition: " + data.weather[0].description;
+  };
 
-      return fetch(weatherUrl).then(response => response.json())
-        .then(weatherData => {
-          const temp = weatherData.main.temp;
-          const humidity = weatherData.main.humidity;
-          const condition = weatherData.weather[0].description;
+  xhr.onerror = function () {
+    output.innerText = "Network error";
+  };
 
-          result.innerHTML = `
-            <h3>${placeName}, ${country}</h3>
-            <p>🌡 Temperature: ${temp} °C</p>
-            <p>💧 Humidity: ${humidity}%</p>
-            <p>🌤 Condition: ${condition}</p>
-          `;
-        });
-    })
-    .catch(error => {
-      result.innerHTML = "Error fetching data";
-    });
+  xhr.send();
 }
