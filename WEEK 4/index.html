@@ -1,77 +1,140 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chat UI / To-Do App</title>
+    <title>Colorful To-Do App</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f9;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
         }
 
-        .container {
+        .app {
             background: white;
-            width: 350px;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 380px;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         h2 {
-            text-align: center;
+            margin-bottom: 20px;
+            color: #764ba2;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
         }
 
         input {
-            width: 70%;
-            padding: 8px;
+            flex: 1;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            outline: none;
+            transition: 0.3s;
         }
 
-        button {
-            padding: 8px 10px;
+        input:focus {
+            border-color: #764ba2;
+        }
+
+        .add-btn {
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
             cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            transform: scale(1.05);
         }
 
         ul {
             list-style: none;
             padding: 0;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         li {
-            background: #f1f1f1;
-            margin-bottom: 8px;
-            padding: 8px;
+            background: #f4f4f4;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-radius: 5px;
+            transition: 0.3s;
         }
 
-        li.completed {
+        li:hover {
+            background: #ececec;
+        }
+
+        li.completed span {
             text-decoration: line-through;
             color: gray;
         }
 
+        .task-text {
+            cursor: pointer;
+        }
+
         .delete-btn {
-            background: red;
-            color: white;
+            background: #ff4d4d;
             border: none;
-            border-radius: 4px;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #e60000;
+        }
+
+        .footer {
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            background: linear-gradient(45deg, #667eea, #ff758c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>To-Do App</h2>
+<div class="app">
+    <h2>✨ My To-Do App</h2>
 
-    <input type="text" id="taskInput" placeholder="Enter task...">
-    <button onclick="addTask()">Add</button>
+    <div class="input-section">
+        <input type="text" id="taskInput" placeholder="Enter your task...">
+        <button class="add-btn" onclick="addTask()">Add</button>
+    </div>
 
     <ul id="taskList"></ul>
+
+    <div class="footer">
+        Assignment by Piu Dasgupta
+    </div>
 </div>
 
 <script>
@@ -87,22 +150,19 @@
 
         tasks.forEach((task, index) => {
             const li = document.createElement("li");
-            li.textContent = task.text;
+            if (task.completed) li.classList.add("completed");
 
-            if (task.completed) {
-                li.classList.add("completed");
-            }
-
-            li.onclick = () => toggleTask(index);
+            const span = document.createElement("span");
+            span.textContent = task.text;
+            span.className = "task-text";
+            span.onclick = () => toggleTask(index);
 
             const deleteBtn = document.createElement("button");
-            deleteBtn.textContent = "X";
+            deleteBtn.textContent = "Delete";
             deleteBtn.className = "delete-btn";
-            deleteBtn.onclick = (e) => {
-                e.stopPropagation();
-                deleteTask(index);
-            };
+            deleteBtn.onclick = () => deleteTask(index);
 
+            li.appendChild(span);
             li.appendChild(deleteBtn);
             taskList.appendChild(li);
         });
